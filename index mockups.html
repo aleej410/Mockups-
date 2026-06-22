@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formless — Rediseño de mockups minimalista con IA</title>
+  <meta name="description" content="Sube el mockup de tu producto y obtén una versión rediseñada con estética minimalista en minutos. Sin fotógrafo, sin sesión." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ──────────────────────────────────────────────── */
+    :root {
+      --ink:      #0E0E0D;
+      --ink-60:   rgba(14,14,13,.6);
+      --paper:    #F7F5F0;
+      --fog:      #DDDAD3;
+      --mist:     #9E9B94;
+      --accent:   #5B6BA8;
+      --accent-bg:#EEF0F8;
+      --ghost:    #FFFFFF;
+      --danger:   #A8453B;
+
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 999px;
+
+      --shadow-card: 0 1px 3px rgba(14,14,13,.08), 0 4px 16px rgba(14,14,13,.05);
+      --shadow-float: 0 8px 32px rgba(14,14,13,.14);
+
+      --ease-out: cubic-bezier(.22,.68,0,1.2);
+      --ease-std: cubic-bezier(.4,0,.2,1);
+
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+    }
+
+    /* ─── RESET ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--paper);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    img { display: block; max-width: 100%; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    input[type=range] { -webkit-appearance: none; appearance: none; background: none; cursor: pointer; }
+
+    /* ─── FOCUS VISIBLE ───────────────────────────────────────── */
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    /* ─── NAV ─────────────────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 60px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .nav__logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--paper);
+      letter-spacing: -.3px;
+    }
+    .nav__logo span { color: var(--accent); }
+    .nav__badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--mist);
+      background: rgba(255,255,255,.07);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ─── HERO ────────────────────────────────────────────────── */
+    .hero {
+      padding: 80px 32px 64px;
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero__eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .hero__eyebrow::before,
+    .hero__eyebrow::after {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--fog);
+    }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5.5vw, 60px);
+      font-weight: 400;
+      line-height: 1.06;
+      letter-spacing: -.5px;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+    .hero__title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero__sub {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--mist);
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+    .hero__pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      background: var(--ghost);
+      border: 1px solid var(--fog);
+      border-radius: var(--radius-pill);
+      padding: 6px 14px;
+      color: var(--ink);
+    }
+    .pill svg { flex-shrink: 0; }
+
+    /* ─── APP SHELL ───────────────────────────────────────────── */
+    .app-shell {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+      width: 100%;
+    }
+
+    /* ─── STEPPER ─────────────────────────────────────────────── */
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 44px;
+      background: var(--ghost);
+      border: 1px solid var(--fog);
+      border-radius: var(--radius-lg);
+      padding: 6px;
+    }
+    .stepper__item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      transition: background .2s var(--ease-std);
+    }
+    .stepper__item.is-active {
+      background: var(--ink);
+    }
+    .stepper__item.is-done {
+      background: transparent;
+    }
+    .stepper__num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--fog);
+      color: var(--mist);
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+    .stepper__item.is-active .stepper__num {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .stepper__item.is-done .stepper__num {
+      background: var(--paper);
+      border-color: var(--fog);
+      color: var(--ink);
+    }
+    .stepper__label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--mist);
+      transition: color .2s;
+    }
+    .stepper__item.is-active .stepper__label { color: var(--paper); }
+    .stepper__item.is-done .stepper__label { color: var(--ink); }
+    .stepper__div {
+      width: 1px;
+      height: 20px;
+      background: var(--fog);
+      flex-shrink: 0;
+    }
+
+    /* ─── UPLOAD ZONE ─────────────────────────────────────────── */
+    .upload-zone {
+      border: 2px dashed var(--fog);
+      border-radius: var(--radius-lg);
+      background: var(--ghost);
+      padding: 72px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s, box-shadow .2s;
+      position: relative;
+    }
+    .upload-zone:hover,
+    .upload-zone.is-drag { border-color: var(--accent); background: var(--accent-bg); }
+    .upload-zone.is-drag { box-shadow: var(--shadow-float); }
+    .upload-zone__icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--paper);
+      border: 1px solid var(--fog);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transition: transform .2s var(--ease-out);
+    }
+    .upload-zone:hover .upload-zone__icon { transform: translateY(-4px); }
+    .upload-zone__title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .upload-zone__sub {
+      font-size: 14px;
+      color: var(--mist);
+      margin-bottom: 4px;
+    }
+    .upload-zone__hint {
+      font-size: 12px;
+      color: var(--fog);
+    }
+    #file-input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    /* ─── STEP 2: CONFIG ──────────────────────────────────────── */
+    .step2-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .preview-box {
+      aspect-ratio: 1;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--fog);
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-card);
+    }
+    .preview-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 12px;
+    }
+    .config-panel { display: flex; flex-direction: column; gap: 28px; }
+    .config-section__label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--mist);
+      margin-bottom: 12px;
+    }
+
+    /* ─── STYLE CARDS ─────────────────────────────────────────── */
+    .style-cards { display: flex; flex-direction: column; gap: 8px; }
+    .style-card {
+      border: 1.5px solid var(--fog);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, transform .15s var(--ease-out);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+    .style-card:hover { border-color: var(--accent); transform: translateX(2px); }
+    .style-card.is-selected { border-color: var(--accent); background: var(--accent-bg); }
+    .style-card__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--fog);
+      flex-shrink: 0;
+      transition: all .15s;
+    }
+    .style-card.is-selected .style-card__dot {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .style-card__name { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .style-card__desc { font-size: 12px; color: var(--mist); line-height: 1.4; }
+
+    /* ─── SLIDER (strength) ───────────────────────────────────── */
+    .strength-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .strength-val { font-size: 14px; font-weight: 600; color: var(--accent); }
+    input[type=range] { width: 100%; height: 4px; border-radius: 999px; }
+    input[type=range]::-webkit-slider-runnable-track {
+      height: 4px; border-radius: 999px;
+      background: linear-gradient(to right, var(--accent) var(--pct,60%), var(--fog) var(--pct,60%));
+    }
+    input[type=range]::-moz-range-track {
+      height: 4px; border-radius: 999px; background: var(--fog);
+    }
+    input[type=range]::-moz-range-progress { background: var(--accent); border-radius: 999px; height: 4px; }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--ghost); border: 2px solid var(--accent);
+      box-shadow: 0 2px 6px rgba(91,107,168,.3);
+      margin-top: -7px;
+      transition: transform .1s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+    input[type=range]::-moz-range-thumb {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--ghost); border: 2px solid var(--accent);
+    }
+    .strength-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+    .strength-labels span { font-size: 11px; color: var(--mist); }
+
+    /* ─── BUTTONS ─────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: var(--radius-pill);
+      padding: 12px 24px;
+      transition: all .18s var(--ease-std);
+      text-decoration: none;
+    }
+    .btn:disabled { opacity: .45; cursor: not-allowed; }
+    .btn--primary {
+      background: var(--ink);
+      color: var(--paper);
+      width: 100%;
+      padding: 14px 24px;
+    }
+    .btn--primary:not(:disabled):hover { background: #2A2A27; }
+    .btn--ghost {
+      background: transparent;
+      color: var(--mist);
+      border: 1.5px solid var(--fog);
+    }
+    .btn--ghost:not(:disabled):hover { border-color: var(--ink); color: var(--ink); }
+    .btn--outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--fog);
+    }
+    .btn--outline:not(:disabled):hover { border-color: var(--ink); }
+    .btn--link {
+      font-size: 13px;
+      color: var(--mist);
+      padding: 0;
+      gap: 4px;
+    }
+    .btn--link:hover { color: var(--ink); }
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(247,245,240,.3);
+      border-top-color: var(--paper);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── STEP 3: RESULT / DIAGONAL BEFORE-AFTER ─────────────── */
+    .result-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+    .result-header__label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--mist);
+    }
+    .result-header__style {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-bg);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    .compare-wrap {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--fog);
+      box-shadow: var(--shadow-card);
+      aspect-ratio: 1;
+      user-select: none;
+      touch-action: none;
+    }
+    .compare-before,
+    .compare-after {
+      position: absolute;
+      inset: 0;
+    }
+    .compare-before {
+      background: var(--paper);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .compare-before img,
+    .compare-after img {
+      width: 100%; height: 100%; object-fit: contain; padding: 20px;
+    }
+    /* Signature element: diagonal clip */
+    .compare-after {
+      background: var(--ghost);
+      clip-path: polygon(var(--clip, 50%) 0%, 100% 0%, 100% 100%, calc(var(--clip, 50%) - 8%) 100%);
+      transition: clip-path .04s linear;
+    }
+    .compare-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--ink);
+      left: var(--clip, 50%);
+      transform: translateX(-50%);
+      cursor: ew-resize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .compare-handle__knob {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-float);
+      flex-shrink: 0;
+    }
+    .compare-handle__knob svg { color: var(--paper); }
+
+    .compare-tags {
+      position: absolute;
+      top: 16px;
+      left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      pointer-events: none;
+    }
+    .compare-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+    }
+    .compare-tag--before { background: rgba(14,14,13,.65); color: var(--paper); }
+    .compare-tag--after  { background: var(--accent); color: #fff; }
+
+    .compare-hint {
+      font-size: 12px;
+      color: var(--mist);
+      text-align: center;
+      margin-top: 12px;
+      margin-bottom: 28px;
+    }
+
+    .result-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ─── ERROR ───────────────────────────────────────────────── */
+    .error-msg {
+      font-size: 13px;
+      color: var(--danger);
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      margin-top: auto;
+      background: var(--ink);
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    footer p {
+      font-size: 13px;
+      color: var(--mist);
+      line-height: 1.5;
+    }
+    footer p strong { color: var(--paper); font-weight: 500; }
+    .footer-note {
+      font-size: 12px;
+      color: rgba(158,155,148,.6);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .footer-note::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .anim-fadeup { animation: fadeUp .35s var(--ease-out) both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav { padding: 0 16px; }
+      .hero { padding: 48px 16px 40px; }
+      .app-shell { padding: 0 16px 80px; }
+      .step2-grid { grid-template-columns: 1fr; }
+      .stepper__label { display: none; }
+      .result-actions { flex-direction: column; }
+      .result-actions .btn { width: 100%; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ────────────────────────────────────────────────────── -->
+  <nav class="nav" role="banner">
+    <div class="nav__logo">form<span>·</span>less</div>
+    <span class="nav__badge">Prototipo v0.1</span>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────────────── -->
+  <section class="hero" aria-label="Encabezado">
+    <p class="hero__eyebrow">Rediseño de mockups con IA</p>
+    <h1 class="hero__title">Tu producto, <em>en su mejor versión</em>.</h1>
+    <p class="hero__sub">
+      Sube la foto de tu producto. En segundos recibes un mockup rediseñado
+      con estética de catálogo minimalista — listo para catálogo, redes o tienda.
+    </p>
+    <div class="hero__pills">
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+        Sin fotógrafo
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+        Sin sesión de foto
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+        Alta resolución
+      </span>
+      <span class="pill">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+        Impulsado por Higgsfield AI
+      </span>
+    </div>
+  </section>
+
+  <!-- ── APP ────────────────────────────────────────────────────── -->
+  <main class="app-shell" id="app" role="main">
+
+    <!-- Stepper -->
+    <nav class="stepper" aria-label="Progreso" id="stepper">
+      <div class="stepper__item is-active" id="step-item-1" aria-current="step">
+        <span class="stepper__num" aria-hidden="true">1</span>
+        <span class="stepper__label">Subir imagen</span>
+      </div>
+      <div class="stepper__div" aria-hidden="true"></div>
+      <div class="stepper__item" id="step-item-2">
+        <span class="stepper__num" aria-hidden="true">2</span>
+        <span class="stepper__label">Elegir estilo</span>
+      </div>
+      <div class="stepper__div" aria-hidden="true"></div>
+      <div class="stepper__item" id="step-item-3">
+        <span class="stepper__num" aria-hidden="true">3</span>
+        <span class="stepper__label">Resultado</span>
+      </div>
+    </nav>
+
+    <!-- ── STEP 1 ── -->
+    <div id="view-1" class="anim-fadeup" role="region" aria-label="Paso 1: Subir imagen">
+      <div class="upload-zone" id="upload-zone" tabindex="0" role="button"
+           aria-label="Zona de carga: arrastra una imagen o haz clic para elegir"
+           aria-describedby="upload-hint">
+        <input type="file" id="file-input" accept="image/*" aria-label="Seleccionar archivo de imagen" />
+        <div class="upload-zone__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5B6BA8" stroke-width="1.8">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p class="upload-zone__title">Arrastra tu imagen aquí</p>
+        <p class="upload-zone__sub">o haz clic para seleccionar un archivo</p>
+        <p class="upload-zone__hint" id="upload-hint">JPG, PNG o WEBP · máximo 10 MB</p>
+      </div>
+      <p class="error-msg" id="upload-error" hidden aria-live="polite">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span></span>
+      </p>
+    </div>
+
+    <!-- ── STEP 2 ── -->
+    <div id="view-2" hidden role="region" aria-label="Paso 2: Configurar estilo">
+      <div class="step2-grid">
+        <!-- Preview -->
+        <div>
+          <p class="config-section__label">Imagen cargada</p>
+          <div class="preview-box">
+            <img id="preview-img" src="" alt="Imagen original del producto" />
+          </div>
+          <button class="btn btn--link" id="btn-change-img" style="margin-top:12px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+            Cambiar imagen
+          </button>
+        </div>
+
+        <!-- Config -->
+        <div class="config-panel">
+          <!-- Styles -->
+          <div>
+            <p class="config-section__label">Estilo de rediseño</p>
+            <div class="style-cards" role="radiogroup" aria-label="Estilos de rediseño">
+              <div class="style-card is-selected" data-style="studio-blanco" tabindex="0" role="radio" aria-checked="true">
+                <span class="style-card__dot" aria-hidden="true"></span>
+                <div>
+                  <p class="style-card__name">Estudio blanco</p>
+                  <p class="style-card__desc">Fondo blanco puro, sombra suave, foco total en el producto</p>
+                </div>
+              </div>
+              <div class="style-card" data-style="neutro-calido" tabindex="0" role="radio" aria-checked="false">
+                <span class="style-card__dot" aria-hidden="true"></span>
+                <div>
+                  <p class="style-card__name">Neutro cálido</p>
+                  <p class="style-card__desc">Fondo beige claro, luz difusa, sensación editorial</p>
+                </div>
+              </div>
+              <div class="style-card" data-style="concreto" tabindex="0" role="radio" aria-checked="false">
+                <span class="style-card__dot" aria-hidden="true"></span>
+                <div>
+                  <p class="style-card__name">Concreto</p>
+                  <p class="style-card__desc">Superficie de concreto claro, sombras duras, estética industrial</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Strength -->
+          <div>
+            <div class="strength-row">
+              <p class="config-section__label" style="margin-bottom:0;">Fidelidad al original</p>
+              <span class="strength-val" id="strength-display">0.6</span>
+            </div>
+            <input type="range" id="strength-slider"
+              min="0.3" max="0.9" step="0.1" value="0.6"
+              aria-label="Nivel de fidelidad al original"
+              aria-valuemin="0.3" aria-valuemax="0.9"
+              aria-valuenow="0.6" aria-valuetext="0.6 — equilibrio" />
+            <div class="strength-labels">
+              <span>Fiel al original</span>
+              <span>Restyling libre</span>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div>
+            <button class="btn btn--primary" id="btn-generate">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              </svg>
+              Generar rediseño
+            </button>
+            <p class="error-msg" id="gen-error" hidden aria-live="polite">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEP 3 ── -->
+    <div id="view-3" hidden role="region" aria-label="Paso 3: Resultado del rediseño">
+      <div class="result-header">
+        <span class="result-header__label">Antes / Después</span>
+        <span class="result-header__style" id="result-style-label">—</span>
+      </div>
+
+      <!-- Diagonal before/after -->
+      <div class="compare-wrap" id="compare-wrap"
+           role="img" aria-label="Comparación visual: imagen original a la izquierda, rediseño minimalista a la derecha. Arrastra para comparar."
+           tabindex="0">
+        <div class="compare-before">
+          <img id="result-before" src="" alt="Imagen original del producto" draggable="false" />
+        </div>
+        <div class="compare-after" id="compare-after" aria-hidden="true">
+          <img id="result-after" src="" alt="Mockup rediseñado en estilo minimalista" draggable="false" />
+        </div>
+        <div class="compare-handle" id="compare-handle" aria-hidden="true">
+          <div class="compare-handle__knob">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" style="transform:translateX(8px)"/>
+            </svg>
+          </div>
+        </div>
+        <div class="compare-tags" aria-hidden="true">
+          <span class="compare-tag compare-tag--before">Original</span>
+          <span class="compare-tag compare-tag--after">Rediseñado</span>
+        </div>
+      </div>
+
+      <p class="compare-hint">Arrastra la línea para comparar · en este prototipo la generación es simulada</p>
+
+      <div class="result-actions">
+        <button class="btn btn--outline" id="btn-retry-style">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Probar otro estilo
+        </button>
+        <button class="btn btn--outline" id="btn-download" disabled title="Disponible al conectar generación real">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar en alta resolución
+        </button>
+        <button class="btn btn--ghost" id="btn-restart">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+          Empezar de nuevo
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── FOOTER ──────────────────────────────────────────────────── -->
+  <footer>
+    <p>
+      <strong>formless</strong> — prototipo con datos simulados.<br />
+      Generación real vía <strong>Higgsfield AI</strong> · Soul Image-to-Image API.
+    </p>
+    <p class="footer-note">
+      Para conectar la API real, reemplaza <code style="font-size:11px;color:var(--accent);">generateMockup()</code> en el JS con la llamada a tu backend.
+    </p>
+  </footer>
+
+  <!-- ── JAVASCRIPT ──────────────────────────────────────────────── -->
+  <script>
+  /*
+   * ─────────────────────────────────────────────────────────────────
+   * CAPA DE GENERACIÓN — ÚNICO PUNTO DE CAMBIO PARA CONECTAR HIGGSFIELD
+   *
+   * En producción, esta función NO debe vivir en el frontend.
+   * Crea una API route en tu backend (ej: /api/generate en Next.js)
+   * que reciba { imageBase64, style, strength } y llame a Higgsfield:
+   *
+   *   POST https://api.higgsfield.ai/v1/generation/soul-image-to-image
+   *   Headers: { Authorization: 'Bearer TU_API_KEY' }
+   *   Body:    { image: imageBase64, prompt: buildPrompt(style), strength }
+   *
+   * Higgsfield es asíncrono: te da un request_id →
+   * haz polling a /v1/generation/{request_id}/status cada 3s →
+   * cuando status === 'completed', usa result.images[0].url
+   * ─────────────────────────────────────────────────────────────────
+   */
+  async function generateMockup({ imageDataUrl, style, strength }) {
+    // Simula latencia de submit + polling (~10-25s en producción real)
+    await new Promise(r => setTimeout(r, 2600));
+
+    // TODO en producción:
+    // const res = await fetch('/api/generate', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ imageDataUrl, style, strength })
+    // });
+    // if (!res.ok) throw new Error('Error de generación');
+    // const { resultUrl } = await res.json();
+    // return resultUrl;
+
+    return imageDataUrl; // mock: devuelve la misma imagen
+  }
+
+  function buildPrompt(style) {
+    const prompts = {
+      'studio-blanco': 'minimalist product photo, pure white background, soft diffused lighting, subtle drop shadow, centered composition, e-commerce studio style, high resolution',
+      'neutro-calido':  'minimalist product photo, warm beige background, editorial style, soft warm light, magazine catalog aesthetic, clean composition',
+      'concreto':       'minimalist product photo, light concrete surface, strong directional shadows, industrial minimal aesthetic, architectural composition, studio lighting',
+    };
+    return prompts[style] || prompts['studio-blanco'];
+  }
+
+  /* ─── STATE ─────────────────────────────────────────────────── */
+  const state = {
+    step: 1,
+    imageDataUrl: null,
+    fileName: '',
+    style: 'studio-blanco',
+    strength: 0.6,
+    resultUrl: null,
+    generating: false,
+    clipPct: 50,
+  };
+
+  /* ─── ELEMENTS ───────────────────────────────────────────────── */
+  const $ = id => document.getElementById(id);
+  const views     = { 1: $('view-1'), 2: $('view-2'), 3: $('view-3') };
+  const stepItems = { 1: $('step-item-1'), 2: $('step-item-2'), 3: $('step-item-3') };
+
+  /* ─── NAVIGATE STEPS ─────────────────────────────────────────── */
+  function goTo(n) {
+    state.step = n;
+    Object.entries(views).forEach(([k, el]) => {
+      const isThis = +k === n;
+      el.hidden = !isThis;
+      if (isThis) {
+        el.classList.remove('anim-fadeup');
+        void el.offsetWidth;
+        el.classList.add('anim-fadeup');
+      }
+    });
+    Object.entries(stepItems).forEach(([k, el]) => {
+      const num = +k;
+      el.classList.remove('is-active', 'is-done');
+      if (num === n) el.classList.add('is-active');
+      else if (num < n) el.classList.add('is-done');
+      el.setAttribute('aria-current', num === n ? 'step' : 'false');
+    });
+    if (n === 3) {
+      const styleNames = {
+        'studio-blanco': 'Estudio blanco',
+        'neutro-calido':  'Neutro cálido',
+        'concreto':       'Concreto',
+      };
+      $('result-style-label').textContent = styleNames[state.style] || state.style;
+      $('result-before').src = state.imageDataUrl;
+      $('result-after').src  = state.resultUrl;
+      state.clipPct = 50;
+      applyClip(50);
+    }
+  }
+
+  /* ─── UPLOAD ─────────────────────────────────────────────────── */
+  function handleFile(file) {
+    if (!file) return;
+    const uploadError = $('upload-error');
+    if (!file.type.startsWith('image/')) {
+      showError(uploadError, 'Ese archivo no es una imagen. Usa JPG, PNG o WEBP.');
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      showError(uploadError, 'El archivo supera 10 MB. Comprime la imagen e intenta de nuevo.');
+      return;
+    }
+    uploadError.hidden = true;
+    const reader = new FileReader();
+    reader.onload = e => {
+      state.imageDataUrl = e.target.result;
+      state.fileName = file.name;
+      $('preview-img').src = state.imageDataUrl;
+      goTo(2);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function showError(el, msg) {
+    el.querySelector('span').textContent = msg;
+    el.hidden = false;
+  }
+
+  const zone = $('upload-zone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('is-drag'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('is-drag'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('is-drag');
+    handleFile(e.dataTransfer.files?.[0]);
+  });
+  zone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') $('file-input').click(); });
+  $('file-input').addEventListener('change', e => handleFile(e.target.files?.[0]));
+
+  /* ─── STYLE CARDS ────────────────────────────────────────────── */
+  document.querySelectorAll('.style-card').forEach(card => {
+    card.addEventListener('click', () => selectStyle(card));
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectStyle(card); }
+    });
+  });
+  function selectStyle(card) {
+    document.querySelectorAll('.style-card').forEach(c => {
+      c.classList.remove('is-selected');
+      c.setAttribute('aria-checked', 'false');
+    });
+    card.classList.add('is-selected');
+    card.setAttribute('aria-checked', 'true');
+    state.style = card.dataset.style;
+  }
+
+  /* ─── STRENGTH SLIDER ────────────────────────────────────────── */
+  const slider = $('strength-slider');
+  slider.addEventListener('input', () => {
+    const v = parseFloat(slider.value);
+    state.strength = v;
+    $('strength-display').textContent = v.toFixed(1);
+    slider.setAttribute('aria-valuenow', v);
+    const pct = ((v - 0.3) / (0.9 - 0.3)) * 100;
+    slider.style.setProperty('--pct', pct + '%');
+  });
+  // init track fill
+  slider.style.setProperty('--pct', '50%');
+
+  /* ─── GENERATE ───────────────────────────────────────────────── */
+  $('btn-generate').addEventListener('click', async () => {
+    if (state.generating) return;
+    state.generating = true;
+    const btn = $('btn-generate');
+    const genError = $('gen-error');
+    genError.hidden = true;
+    btn.innerHTML = `<span class="spinner"></span> Generando rediseño…`;
+    btn.disabled = true;
+    try {
+      const url = await generateMockup({
+        imageDataUrl: state.imageDataUrl,
+        style: state.style,
+        strength: state.strength,
+      });
+      state.resultUrl = url;
+      goTo(3);
+    } catch (err) {
+      showError(genError, 'No se pudo generar el rediseño. Verifica tu conexión e intenta de nuevo.');
+    } finally {
+      state.generating = false;
+      btn.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        Generar rediseño`;
+      btn.disabled = false;
+    }
+  });
+
+  /* ─── CHANGE IMAGE ───────────────────────────────────────────── */
+  $('btn-change-img').addEventListener('click', () => {
+    state.imageDataUrl = null;
+    $('file-input').value = '';
+    goTo(1);
+  });
+
+  /* ─── RESULT ACTIONS ─────────────────────────────────────────── */
+  $('btn-retry-style').addEventListener('click', () => goTo(2));
+  $('btn-restart').addEventListener('click', () => {
+    state.imageDataUrl = null;
+    state.resultUrl = null;
+    $('file-input').value = '';
+    $('preview-img').src = '';
+    goTo(1);
+  });
+
+  /* ─── DIAGONAL COMPARE (signature element) ───────────────────── */
+  function applyClip(pct) {
+    state.clipPct = pct;
+    const after   = $('compare-after');
+    const handle  = $('compare-handle');
+    after.style.setProperty('--clip', pct + '%');
+    handle.style.left = pct + '%';
+    // Compensate image position inside clipped div so it always fills correctly
+    const img = after.querySelector('img');
+    if (img) {
+      img.style.width  = pct < 1 ? '0' : (100 / (pct / 100)) + '%';
+      img.style.maxWidth = 'none';
+    }
+  }
+
+  function getClipFromEvent(e, rect) {
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const raw = ((clientX - rect.left) / rect.width) * 100;
+    return Math.min(98, Math.max(2, raw));
+  }
+
+  const wrap = $('compare-wrap');
+  let dragging = false;
+
+  wrap.addEventListener('mousedown', e => {
+    dragging = true;
+    applyClip(getClipFromEvent(e, wrap.getBoundingClientRect()));
+  });
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    applyClip(getClipFromEvent(e, wrap.getBoundingClientRect()));
+  });
+  window.addEventListener('mouseup', () => { dragging = false; });
+
+  wrap.addEventListener('touchstart', e => {
+    applyClip(getClipFromEvent(e, wrap.getBoundingClientRect()));
+  }, { passive: true });
+  wrap.addEventListener('touchmove', e => {
+    applyClip(getClipFromEvent(e, wrap.getBoundingClientRect()));
+  }, { passive: true });
+
+  // Keyboard accessibility for compare
+  wrap.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft')  applyClip(Math.max(2,  state.clipPct - 5));
+    if (e.key === 'ArrowRight') applyClip(Math.min(98, state.clipPct + 5));
+  });
+
+  /* ─── INIT ───────────────────────────────────────────────────── */
+  goTo(1);
+  </script>
+</body>
+</html>
