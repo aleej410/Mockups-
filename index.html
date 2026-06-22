@@ -57,36 +57,86 @@
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
     /* ─── NAV ─────────────────────────────────────────────────── */
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: var(--ink);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      height: 60px;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-    .nav__logo {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 400;
-      color: var(--paper);
-      letter-spacing: -.3px;
-    }
-    .nav__logo span { color: var(--accent); }
-    .nav__badge {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--mist);
-      background: rgba(255,255,255,.07);
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-    }
+    /* ─── NAV ─────────────────────────────────────────────────── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    background: rgba(14, 14, 13, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    transition: background 0.3s ease;
+  }
+  .nav__logo {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .nav__logo span { color: var(--accent); }
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+  }
+  .nav__links a {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    letter-spacing: 0.01em;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav__links a:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+  }
+  .nav__cta {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav__cta:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .nav__right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  @media (max-width: 640px) {
+    .nav { padding: 0 20px; height: 56px; }
+    .nav__links { display: none; }
+    .nav__cta { padding: 8px 14px; font-size: 0.8rem; }
+  }
 
     /* ─── HERO ────────────────────────────────────────────────── */
     .hero {
@@ -593,8 +643,15 @@
 
   <!-- ── NAV ────────────────────────────────────────────────────── -->
   <nav class="nav" role="banner">
-    <div class="nav__logo">form<span>·</span>less</div>
-    <span class="nav__badge">Prototipo v0.1</span>
+    <a class="nav__logo" href="#">form<span>·</span>less</a>
+    <ul class="nav__links">
+      <li><a href="#como-funciona">Cómo funciona</a></li>
+      <li><a href="#ejemplos">Ejemplos</a></li>
+      <li><a href="#precios">Precios</a></li>
+    </ul>
+    <div class="nav__right">
+      <a class="nav__cta" href="#subir">Probar gratis</a>
+    </div>
   </nav>
 
   <!-- ── HERO ───────────────────────────────────────────────────── -->
