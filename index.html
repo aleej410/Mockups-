@@ -1,6 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- ── SEO META ─────────────────────────────────────────────── -->
+  <title>Formless — Mockups de producto con IA | Rediseño minimalista</title>
+  <meta name="description" content="Convierte la foto de tu producto en un mockup profesional de catálogo minimalista en segundos. Sin fotógrafo, sin sesión de foto. Impulsado por IA.">
+  <meta name="keywords" content="mockup producto IA, rediseño producto inteligencia artificial, mockup minimalista, foto producto catálogo, mockup generador, Formless">
+  <meta name="author" content="Formless">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mockups-eight-kappa.vercel.app/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mockups-eight-kappa.vercel.app/">
+  <meta property="og:title" content="Formless — Mockups de producto con IA">
+  <meta property="og:description" content="Transforma la foto de tu producto en un mockup de catálogo minimalista profesional en segundos. Sin fotógrafo ni sesión de foto.">
+  <meta property="og:image" content="https://mockups-eight-kappa.vercel.app/og-image.png">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Formless">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Formless — Mockups de producto con IA">
+  <meta name="twitter:description" content="Transforma la foto de tu producto en un mockup profesional minimalista. Impulsado por IA.">
+  <meta name="twitter:image" content="https://mockups-eight-kappa.vercel.app/og-image.png">
+
+  <!-- Schema.org WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Formless",
+    "url": "https://mockups-eight-kappa.vercel.app/",
+    "description": "Genera mockups de producto con estética minimalista usando inteligencia artificial. Sube tu foto y obtén un resultado profesional en segundos.",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "inLanguage": "es"
+  }
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Formless — Rediseño de mockups minimalista con IA</title>
@@ -637,6 +678,159 @@
       .result-actions .btn { width: 100%; }
       footer { flex-direction: column; align-items: flex-start; }
     }
+  
+  /* ─── SECCIÓN: CÓMO FUNCIONA ───────────────────────────────── */
+  .how-it-works {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 100px 24px;
+    text-align: center;
+  }
+  .how-it-works .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .how-it-works h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .how-it-works .section-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    max-width: 520px;
+    margin: 0 auto 64px;
+    line-height: 1.7;
+  }
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .step-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: left;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .step-card:hover {
+    border-color: rgba(91,107,168,0.5);
+    transform: translateY(-4px);
+  }
+  .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .step-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .step-card p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.65;
+  }
+
+  /* ─── SECCIÓN: FAQ ─────────────────────────────────────────── */
+  .faq {
+    background: var(--paper);
+    padding: 100px 24px;
+  }
+  .faq__inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .faq .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .faq h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .faq .section-sub {
+    font-size: 1rem;
+    color: var(--ink-60);
+    margin-bottom: 56px;
+    line-height: 1.7;
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-align: left;
+    border-top: 1px solid var(--fog);
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--fog);
+  }
+  .faq-item summary {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 22px 4px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: color 0.2s;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: '+';
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: transform 0.25s;
+  }
+  .faq-item[open] summary::after { transform: rotate(45deg); }
+  .faq-item[open] summary { color: var(--accent); }
+  .faq-item .faq-body {
+    font-size: 0.9rem;
+    color: var(--ink-60);
+    line-height: 1.75;
+    padding: 0 4px 22px;
+    max-width: 640px;
+  }
+
   </style>
 </head>
 <body>
@@ -1127,5 +1321,89 @@
   /* ─── INIT ───────────────────────────────────────────────────── */
   goTo(1);
   </script>
+
+  <!-- ── CÓMO FUNCIONA ─────────────────────────────────────────── -->
+  <section class="how-it-works" id="como-funciona">
+    <span class="section-eyebrow">El proceso</span>
+    <h2>De foto a mockup<br>en tres pasos</h2>
+    <p class="section-sub">No necesitas conocimientos de diseño ni software especializado. Formless hace el trabajo pesado por ti.</p>
+    <div class="steps-grid">
+      <article class="step-card">
+        <div class="step-number">01</div>
+        <h3>Sube tu foto de producto</h3>
+        <p>Acepta cualquier imagen: fondo blanco, fondo natural, smartphone o cámara profesional. Cuanto más nítida, mejor resultado.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">02</div>
+        <h3>Elige el estilo visual</h3>
+        <p>Selecciona entre estilos minimalistas de catálogo, editorial de lujo o lifestyle moderno. Nuestro modelo de IA adapta la composición al tono de tu marca.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">03</div>
+        <h3>Descarga en alta resolución</h3>
+        <p>Recibe tu mockup rediseñado listo para usar en tienda online, redes sociales, catálogos impresos o campañas publicitarias.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">04</div>
+        <h3>Itera sin límites</h3>
+        <p>¿No quedó perfecto? Ajusta el estilo, la intensidad o el encuadre y genera nuevas variantes en segundos hasta encontrar la imagen ideal.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── FAQ ────────────────────────────────────────────────────── -->
+  <section class="faq" id="preguntas-frecuentes">
+    <div class="faq__inner">
+      <span class="section-eyebrow">Preguntas frecuentes</span>
+      <h2>Todo lo que necesitas saber</h2>
+      <p class="section-sub">Si tienes dudas que no están aquí, escríbenos y te respondemos en menos de 24 horas.</p>
+      <div class="faq-list">
+
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">¿Necesito ser diseñador para usar Formless?</summary>
+          <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">No. Formless está diseñado para emprendedores, marcas y vendedores online sin experiencia en diseño. Solo necesitas subir una foto de tu producto y la inteligencia artificial se encarga de todo el proceso de rediseño y composición.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">¿Qué tipo de productos puedo procesar?</summary>
+          <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Formless funciona con prácticamente cualquier producto físico: ropa, calzado, cosméticos, alimentos, electrónicos, joyería, artesanía y más. Cuanto mejor sea la calidad de la foto original, mejor será el resultado final del mockup.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">¿En qué resolución se entregan los mockups?</summary>
+          <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Los mockups se generan en alta resolución (mínimo 1024×1024 px), aptos para uso digital en e-commerce y redes sociales. Los planes premium incluyen exportación en resoluciones mayores para impresión y catálogos profesionales.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">¿Cuánto tiempo tarda en generarse un mockup?</summary>
+          <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">El proceso tarda entre 15 y 45 segundos dependiendo de la complejidad del producto y el estilo seleccionado. No necesitas esperar: recibirás una notificación en pantalla cuando tu mockup esté listo para descargar.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">¿Puedo usar los mockups generados con fines comerciales?</summary>
+          <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Sí. Todos los mockups generados con Formless son de tu propiedad y puedes usarlos libremente con fines comerciales: tiendas online, publicidad, redes sociales, catálogos, packaging y cualquier otro uso que necesites.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">¿Formless reemplaza a un fotógrafo profesional?</summary>
+          <div class="faq-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Formless es una alternativa rápida y asequible para crear imágenes de producto de calidad profesional sin contratar una sesión fotográfica. Es ideal para lanzar productos rápidamente, probar variaciones visuales o complementar tu contenido fotográfico existente.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
 </body>
 </html>
